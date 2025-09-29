@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCF Recommended Catalogs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="display-5">CCF Recommended Catalogs</h1>
+            <p class="lead">A quick way to browse and filter CCF recommended publications.</p>
+        </div>
+
+        <div class="card card-body mb-4 shadow-sm">
+            <div class="row g-3 align-items-center">
+                <div class="col-md">
+                    <label for="rank-filter" class="form-label">Rank</label>
+                    <select id="rank-filter" class="form-select">
+                        <option value="all">All</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label for="field-filter" class="form-label">Field</label>
+                    <select id="field-filter" class="form-select">
+                        <option value="all">All</option>
+                    </select>
+                </div>
+                <div class="col-md">
+                    <label for="type-filter" class="form-label">Type</label>
+                    <select id="type-filter" class="form-select">
+                        <option value="all">All</option>
+                        <option value="journals">Journals</option>
+                        <option value="conferences">Conferences</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="results" class="table-responsive">
+            <!-- Table will be injected here by script.js -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
