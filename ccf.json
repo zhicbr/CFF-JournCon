@@ -1931,7 +1931,7 @@
             "fullName": "ACM SIGPLAN Conference on Programming Language Design and Implementation",
             "publisher": "ACM",
             "url": "http://dblp.uni-trier.de/db/conf/pldi/",
-            "notes": null
+            "notes": "程序设计语言"
           },
           {
             "id": 2,
@@ -1939,7 +1939,7 @@
             "fullName": "ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages",
             "publisher": "ACM",
             "url": "http://dblp.uni-trier.de/db/conf/popl/",
-            "notes": null
+            "notes": "程序设计语言"
           },
           {
             "id": 3,
@@ -1947,7 +1947,7 @@
             "fullName": "ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering",
             "publisher": "ACM",
             "url": "http://dblp.uni-trier.de/db/conf/sigsoft/",
-            "notes": null
+            "notes": "软件工程"
           },
           {
             "id": 4,
@@ -1955,7 +1955,7 @@
             "fullName": "ACM Symposium on Operating Systems Principles",
             "publisher": "ACM",
             "url": "http://dblp.uni-trier.de/db/conf/sosp/",
-            "notes": null
+            "notes": "系统软件"
           },
           {
             "id": 5,
@@ -1963,7 +1963,7 @@
             "fullName": "Conference on Object-Oriented Programming Systems, Languages, and Applications",
             "publisher": "ACM",
             "url": "http://dblp.uni-trier.de/db/conf/oopsla/",
-            "notes": null
+            "notes": "程序设计语言"
           },
           {
             "id": 6,
@@ -1971,7 +1971,7 @@
             "fullName": "International Conference on Automated Software Engineering",
             "publisher": "IEEE/ACM",
             "url": "http://dblp.uni-trier.de/db/conf/kbse/",
-            "notes": null
+            "notes": "软件工程"
           },
           {
             "id": 7,
@@ -1979,7 +1979,7 @@
             "fullName": "International Conference on Software Engineering",
             "publisher": "ACM/IEEE",
             "url": "http://dblp.uni-trier.de/db/conf/icse/",
-            "notes": null
+            "notes": "软件工程"
           },
           {
             "id": 8,
@@ -1987,7 +1987,7 @@
             "fullName": "International Symposium on Software Testing and Analysis",
             "publisher": "ACM",
             "url": "http://dblp.uni-trier.de/db/conf/issta/",
-            "notes": null
+            "notes": "软件工程"
           },
           {
             "id": 9,
@@ -1995,7 +1995,7 @@
             "fullName": "USENIX Symposium on Operating Systems Design and Implementation",
             "publisher": "USENIX",
             "url": "http://dblp.uni-trier.de/db/conf/osdi/",
-            "notes": null
+            "notes": "系统软件"
           },
           {
             "id": 10,
@@ -2003,7 +2003,7 @@
             "fullName": "International Symposium on Formal Methods",
             "publisher": "FME",
             "url": "http://dblp.uni-trier.de/db/conf/fm/",
-            "notes": "Upgraded from 2019 list"
+            "notes": "程序设计语言/软件工程    Upgraded from 2019 list"
           }
         ],
         "B": [
