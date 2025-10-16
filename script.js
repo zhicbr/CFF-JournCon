@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const rankFilter = document.getElementById('rank-filter');
     const fieldFilter = document.getElementById('field-filter');
     const typeFilter = document.getElementById('type-filter');
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
     const resultsContainer = document.getElementById('results');
 
     let allData = [];
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rank = rankFilter.value;
         const fieldName = fieldFilter.value;
         const type = typeFilter.value;
+        const searchQuery = searchInput.value.toLowerCase();
 
         const rankBadges = {
             'A': 'bg-danger',
@@ -49,16 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     for (const [categoryRank, items] of Object.entries(category)) {
                         if (rank === 'all' || categoryRank === rank) {
                             items.forEach(item => {
-                                hasResults = true;
-                                table += `<tr>
-                                    <td><a href="${item.url}" target="_blank">${item.abbreviation}</a></td>
-                                    <td class="w-50">${item.fullName}</td>
-                                    <td><span class="badge ${typeBadges[categoryName]}">${categoryName}</span></td>
-                                    <td><span class="badge ${rankBadges[categoryRank]}">${categoryRank}</span></td>
-                                    <td>${field.name}</td>
-                                    <td>${item.publisher}</td>
-                                    <td>${item.notes || ''}</td>
-                                </tr>`;
+                                if (searchQuery === '' || item.abbreviation.toLowerCase().includes(searchQuery) || item.fullName.toLowerCase().includes(searchQuery)) {
+                                    hasResults = true;
+                                    table += `<tr>
+                                        <td><a href="${item.url}" target="_blank">${item.abbreviation}</a></td>
+                                        <td class="w-50">${item.fullName}</td>
+                                        <td><span class="badge ${typeBadges[categoryName]}">${categoryName}</span></td>
+                                        <td><span class="badge ${rankBadges[categoryRank]}">${categoryRank}</span></td>
+                                        <td>${field.name}</td>
+                                        <td>${item.publisher}</td>
+                                        <td>${item.notes || ''}</td>
+                                    </tr>`;
+                                }
                             });
                         }
                     }
@@ -84,4 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     rankFilter.addEventListener('change', renderTable);
     fieldFilter.addEventListener('change', renderTable);
     typeFilter.addEventListener('change', renderTable);
+    searchButton.addEventListener('click', renderTable);
+    searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            renderTable();
+        }
+    });
 });
