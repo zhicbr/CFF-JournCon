@@ -23,3 +23,22 @@ body {
     padding: 0.4em 0.6em;
 }
 
+.selection-dot {
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.selection-dot.selected {
+    background-color: #0d6efd; /* Bootstrap primary color */
+}
+
+#selected-items-container .list-group-item {
+    background-color: #e9f2ff;
+}
+
