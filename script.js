@@ -76,11 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedItemsContainer.innerHTML = selectedHtml;
     }
 
+    function highlightText(text, query) {
+        if (!query) {
+            return text;
+        }
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark class="highlight">$1</mark>');
+    }
+
     function renderTable() {
         const rank = rankFilter.value;
         const fieldName = fieldFilter.value;
         const type = typeFilter.value;
-        const searchQuery = searchInput.value.toLowerCase();
+        const searchQuery = searchInput.value.trim().toLowerCase();
 
         const rankBadges = {
             'A': 'bg-danger',
@@ -93,49 +101,73 @@ document.addEventListener('DOMContentLoaded', () => {
             'Conference': 'bg-info text-dark'
         };
 
-        let table = '<table class="table table-striped table-hover table-bordered align-middle"><thead><tr><th>Abbreviation</th><th>Full Name</th><th>Type</th><th>Rank</th><th>Field</th><th>Publisher</th><th>Notes</th></tr></thead><tbody>';
-
-        let hasResults = false;
+        let results = [];
 
         allData.forEach(field => {
-            if (fieldName === 'all' || field.name === fieldName) {
-                const processCategory = (category, categoryName) => {
-                    for (const [categoryRank, items] of Object.entries(category)) {
-                        if (rank === 'all' || categoryRank === rank) {
-                            items.forEach(item => {
-                                if (searchQuery === '' || item.abbreviation.toLowerCase().includes(searchQuery) || item.fullName.toLowerCase().includes(searchQuery)) {
-                                    hasResults = true;
-                                    const itemId = `${item.abbreviation}-${categoryName}-${field.name}`;
-                                    const isSelected = selectedItems.has(itemId);
-                                    
-                                    const selectionDot = isSelectionMode ? `<span class="selection-dot ${isSelected ? 'selected' : ''}" data-item-id="${itemId}"></span>` : '';
+            if (fieldName !== 'all' && field.name !== fieldName) return;
 
-                                    table += `<tr>
-                                        <td>${selectionDot}<a href="${item.url}" target="_blank">${item.abbreviation}</a></td>
-                                        <td class="w-50">${item.fullName}</td>
-                                        <td><span class="badge ${typeBadges[categoryName]}">${categoryName}</span></td>
-                                        <td><span class="badge ${rankBadges[categoryRank]}">${categoryRank}</span></td>
-                                        <td>${field.name}</td>
-                                        <td>${item.publisher}</td>
-                                        <td>${item.notes || ''}</td>
-                                    </tr>`;
-                                }
+            const processCategory = (category, categoryName) => {
+                if (type !== 'all' && type !== categoryName.toLowerCase() + 's') return;
+
+                for (const [categoryRank, items] of Object.entries(category)) {
+                    if (rank !== 'all' && categoryRank !== rank) continue;
+
+                    items.forEach(item => {
+                        const abbreviationLower = item.abbreviation.toLowerCase();
+                        const fullNameLower = item.fullName.toLowerCase();
+                        let matchScore = 0;
+
+                        if (searchQuery) {
+                            if (abbreviationLower.includes(searchQuery)) {
+                                matchScore = 2; // Higher score for abbreviation match
+                            } else if (fullNameLower.includes(searchQuery)) {
+                                matchScore = 1; // Lower score for full name match
+                            }
+                        }
+
+                        if (searchQuery === '' || matchScore > 0) {
+                            results.push({
+                                ...item,
+                                categoryName,
+                                categoryRank,
+                                fieldName: field.name,
+                                matchScore
                             });
                         }
-                    }
-                };
+                    });
+                }
+            };
 
-                if (type === 'all' || type === 'journals') {
-                    processCategory(field.journals, 'Journal');
-                }
-                if (type === 'all' || type === 'conferences') {
-                    processCategory(field.conferences, 'Conference');
-                }
-            }
+            processCategory(field.journals, 'Journal');
+            processCategory(field.conferences, 'Conference');
         });
 
-        if (!hasResults) {
+        // Sort results: higher score first
+        results.sort((a, b) => b.matchScore - a.matchScore);
+
+        let table = '<table class="table table-striped table-hover table-bordered align-middle"><thead><tr><th>Abbreviation</th><th>Full Name</th><th>Type</th><th>Rank</th><th>Field</th><th>Publisher</th><th>Notes</th></tr></thead><tbody>';
+
+        if (results.length === 0) {
             table += '<tr><td colspan="7" class="text-center">No results found.</td></tr>';
+        } else {
+            results.forEach(item => {
+                const itemId = `${item.abbreviation}-${item.categoryName}-${item.fieldName}`;
+                const isSelected = selectedItems.has(itemId);
+                const selectionDot = isSelectionMode ? `<span class="selection-dot ${isSelected ? 'selected' : ''}" data-item-id="${itemId}"></span>` : '';
+
+                const highlightedAbbreviation = highlightText(item.abbreviation, searchQuery);
+                const highlightedFullName = highlightText(item.fullName, searchQuery);
+
+                table += `<tr>
+                    <td>${selectionDot}<a href="${item.url}" target="_blank">${highlightedAbbreviation}</a></td>
+                    <td class="w-50">${highlightedFullName}</td>
+                    <td><span class="badge ${typeBadges[item.categoryName]}">${item.categoryName}</span></td>
+                    <td><span class="badge ${rankBadges[item.categoryRank]}">${item.categoryRank}</span></td>
+                    <td>${item.fieldName}</td>
+                    <td>${item.publisher}</td>
+                    <td>${item.notes || ''}</td>
+                </tr>`;
+            });
         }
 
         table += '</tbody></table>';

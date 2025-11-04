@@ -42,3 +42,8 @@ body {
     background-color: #e9f2ff;
 }
 
+.highlight {
+    background-color: #fff3cd;
+    padding: 0.1em 0.2em;
+    border-radius: 0.2em;
+}
